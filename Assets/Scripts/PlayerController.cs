@@ -19,17 +19,19 @@ public class PlayerController : MonoBehaviour
         move = context.ReadValue<Vector2>(); // Get movement input from the player
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        CheckGroundStatus(); // Check if player is grounded
-        MovePlayer(); // Handle player movement
 
-        // Jumping logic using legacy input
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded) // Only jump if grounded
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if (context.performed && isGrounded) // Only jump if grounded
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity); // Calculate the upward velocity for the jump
         }
+    }
+        // Update is called once per frame
+        void Update()
+    {
+        CheckGroundStatus(); // Check if player is grounded
+        MovePlayer(); // Handle player movement
 
         // Apply gravity if the player is not grounded
         if (!isGrounded)
