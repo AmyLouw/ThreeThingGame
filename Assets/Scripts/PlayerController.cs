@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
 
 
     [Header("Ground Check Settings")]
-    public float groundCheckRadius = 0.2f; // Distance to check for ground
+    public float groundCheckDistance = 1.1f; // Distance to check for ground
 
     private Rigidbody rb;
     private Vector2 moveInput;          // Player input
@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        Debug.Log("Jump");
         // Use context.started to trigger on key press only once
         if (context.started)
         {
@@ -75,12 +76,18 @@ public class PlayerController : MonoBehaviour
     // Method to check if the player is grounded using a raycast
     private bool CheckGroundStatus()
     {
-        Collider col = GetComponent<Collider>();
-        Vector3 spherePosition = transform.position - new Vector3(0, col.bounds.extents.y, 0);
-        bool grounded = Physics.CheckSphere(spherePosition, groundCheckRadius);
-        // Optional: visualize the sphere check with a debug ray
-        Debug.DrawRay(spherePosition, Vector3.down * groundCheckRadius, Color.red);
-        return grounded;
+        RaycastHit hit;
+
+        if(Physics.Raycast(transform.position, Vector3.down, out hit, groundCheckDistance))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        Debug.DrawRay(transform.position, Vector3.down * groundCheckDistance, Color.red);
     }
 
 }
+

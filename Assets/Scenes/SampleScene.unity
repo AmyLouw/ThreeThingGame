@@ -245,9 +245,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd5e6750c6d8d3f4c9b9731a74a364d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
-  jumpForce: 20
-  rotationSpeed: 0.15
+  speed: 7
+  jumpForce: 3
+  rotationSpeed: 0.3
   groundCheckRadius: 0.2
 --- !u!114 &290024542
 MonoBehaviour:
@@ -290,6 +290,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: c1248e0c-d560-44cd-9214-1beb96248103
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 290024541}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnJump
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b4612bec-d64b-4b3d-be4d-4b080b8ce158
+    m_ActionName: Player/Jump[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
