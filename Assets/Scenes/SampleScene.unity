@@ -320,7 +320,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 10
+  m_Constraints: 80
   m_CollisionDetection: 1
 --- !u!1 &705507993
 GameObject:
@@ -557,8 +557,10 @@ MonoBehaviour:
   levelSections:
   - {fileID: 2422962858941063843, guid: dcb66a30295fed646942ee441ba01198, type: 3}
   - {fileID: 2731822714371158821, guid: 3e61c0bc32a2f764191554c5dc11d558, type: 3}
-  numberOfSections: 5
-  distanceBetweenSections: 55
+  startPlatform: {fileID: 5005791836423334802, guid: 7aeeb07e4fa254e49a25ae145596ea9b, type: 3}
+  endPlatform: {fileID: 5669094410605048632, guid: c9098feca29000242bfe4cb22055e96c, type: 3}
+  numberOfSections: 9
+  sectionLength: 58
 --- !u!4 &1599532170
 Transform:
   m_ObjectHideFlags: 0
