@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
         MovePlayer(); // Handle player movement
 
         // Jumping logic using legacy input
-        if (Input.GetKeyDown(KeyCode.E) && isGrounded) // Only jump if grounded
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded) // Only jump if grounded
         {
             Debug.Log("Jump");
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity); // Calculate the upward velocity for the jump
