@@ -1,19 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class EndGameTrigger : MonoBehaviour
+public class DeathTrigger : MonoBehaviour
 {
     private GameObject endGameUI;
-
-    private void Start()
+    // Start is called before the first frame update
+    void Start()
     {
-        endGameUI = GameObject.Find("Canvas");
+        endGameUI = Canvas.FindObjectOfType<Canvas>().transform.Find("Death").gameObject;
         endGameUI.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        Time.timeScale = 0;
         if (other.gameObject.CompareTag("Player"))
         {
             endGameUI.SetActive(true);
