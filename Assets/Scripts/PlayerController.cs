@@ -28,7 +28,6 @@ public class PlayerController : MonoBehaviour
         // Jumping logic using legacy input
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded) // Only jump if grounded
         {
-            Debug.Log("Jump");
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity); // Calculate the upward velocity for the jump
         }
 
@@ -50,13 +49,11 @@ public class PlayerController : MonoBehaviour
         // Cast a ray downward to check if the player is grounded
         if (Physics.Raycast(transform.position, Vector3.down, out hit, groundCheckDistance))
         {
-            isGrounded = true;
-            Debug.Log("Grounded");
+            isGrounded = true;        
         }
         else
         {
             isGrounded = false;
-            Debug.Log("Not Grounded");
         }
 
         // Debugging ray to visualize the ground check
