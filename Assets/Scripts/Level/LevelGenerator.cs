@@ -9,7 +9,8 @@ public class LevelGenerator : MonoBehaviour
 
     // The start and end platforms to be placed at the beginning and end of the level
     public GameObject startPlatform;
-    public GameObject endPlatform;
+    public GameObject zCornerPlatform;
+    public GameObject xCornerPlatform;
 
     // The number of sections to generate between the start and end
     public int numberOfSections = 10;
@@ -21,11 +22,11 @@ public class LevelGenerator : MonoBehaviour
     void Start()
     {
         Time.timeScale = 1;
-        GenerateLevel();
+        GenerateFirstLevel();
     }
 
     // Method to generate the level
-    void GenerateLevel()
+    void GenerateFirstLevel()
     {
         Vector3 spawnPosition = Vector3.zero;
 
@@ -86,10 +87,15 @@ public class LevelGenerator : MonoBehaviour
         }
 
         // Spawn the end platform at the end of the level
-        if (endPlatform != null)
+        if (zCornerPlatform != null)
         {
-            Instantiate(endPlatform, spawnPosition, Quaternion.identity);
+            Instantiate(zCornerPlatform, spawnPosition, Quaternion.identity);
         }
+    }
+
+    void GenerateSecondLevel()
+    {
+
     }
 
 }
