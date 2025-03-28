@@ -808,6 +808,9 @@ MonoBehaviour:
   offSetZ: 15
   height: 5
   smoothSpeed: 0.125
+  cornerTriggerZone: {fileID: 8697669581784286787, guid: f6214a8f624ee144b817fcd23bc8d34e, type: 3}
+  rotationSpeed: 1
+  moveSpeed: 5
 --- !u!1 &1385543893
 GameObject:
   m_ObjectHideFlags: 0
@@ -1158,8 +1161,9 @@ MonoBehaviour:
   - {fileID: 2422962858941063843, guid: dcb66a30295fed646942ee441ba01198, type: 3}
   - {fileID: 2731822714371158821, guid: 3e61c0bc32a2f764191554c5dc11d558, type: 3}
   startPlatform: {fileID: 5005791836423334802, guid: 7aeeb07e4fa254e49a25ae145596ea9b, type: 3}
-  zCornerPlatform: {fileID: 0}
-  xCornerPlatform: {fileID: 0}
+  zCornerPlatform: {fileID: 498131792956801276, guid: f6214a8f624ee144b817fcd23bc8d34e, type: 3}
+  xCornerPlatform: {fileID: 6434825417577466102, guid: de249894aaf656448956a39cb540c9eb, type: 3}
+  endPlatform: {fileID: 5669094410605048632, guid: c9098feca29000242bfe4cb22055e96c, type: 3}
   numberOfSections: 1
   sectionLength: 57
 --- !u!4 &1599532170
