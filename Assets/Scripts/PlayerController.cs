@@ -7,6 +7,15 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
 
+    [Header("Movement Particles")] 
+    public ParticleSystem runningDust;
+    public ParticleSystem landingDust;
+
+    [Header("Particle Settings")]
+    public float minSpeedForDust = 2f;
+    public LayerMask groundLayer;
+
+
     [Header("Movement Settings")]
     public float speed = 5f;            // Horizontal Movement speed
     public float jumpForce = 2f;        // Impulse force when jumping
@@ -14,11 +23,13 @@ public class PlayerController : MonoBehaviour
 
 
     [Header("Ground Check Settings")]
-    public float groundCheckDistance = 1.1f; // Distance to check for ground
+    public float groundCheckDistance = 0.1f; // Distance to check for ground
 
     private Rigidbody rb;
     private Vector2 moveInput;          // Player input
     private bool jumpRequested;         // Jump Flag
+    private bool isGrounded;
+    private bool wasGrounded;
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -35,6 +46,7 @@ public class PlayerController : MonoBehaviour
             if (CheckGroundStatus())
             {
                 jumpRequested = true;
+                isGrounded = true;
             }
         }
     }
@@ -48,6 +60,10 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // State changes
+        wasGrounded = isGrounded;
+        isGrounded = CheckGroundStatus();
+
         // Calculate horizontal movement based on input
         Vector3 move = new Vector3(moveInput.x, 0f, moveInput.y);
         Vector3 targetVelocity = new Vector3(move.x * speed, rb.velocity.y, move.z * speed);
@@ -62,7 +78,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Process jump if requested
-        if (jumpRequested && CheckGroundStatus())
+        if (jumpRequested && isGrounded)
         {
             // Calculate the jump velocity using v = sqrt(2 * g * jumpHeight)
             float jumpVelocity = Mathf.Sqrt(2f * Mathf.Abs(Physics.gravity.y) * jumpForce);
@@ -72,20 +88,27 @@ public class PlayerController : MonoBehaviour
         // Reset jump request whether or not the jump was performed
         jumpRequested = false;
 
+
+        // Running Particle Effect
+        float horizontalSpeed = new Vector2(rb.velocity.x, rb.velocity.z).magnitude;
+        var dustEmission = runningDust.emission;
+        dustEmission.enabled = (isGrounded && horizontalSpeed >= minSpeedForDust);
+
+        // Landing Particle Effect
+        if (!wasGrounded && isGrounded)
+        {
+            landingDust.Play();
+        }
+
     }
     // Method to check if the player is grounded using a raycast
     private bool CheckGroundStatus()
     {
-        RaycastHit hit;
-
-        if(Physics.Raycast(transform.position, Vector3.down, out hit, groundCheckDistance))
+        if(Physics.Raycast(transform.position, Vector3.down, out _, groundCheckDistance))
         {
             return true;
         }
-        else
-        {
-            return false;
-        }
+        return false;
         Debug.DrawRay(transform.position, Vector3.down * groundCheckDistance, Color.red);
     }
 
