@@ -15,7 +15,14 @@ public class CameraController : MonoBehaviour
     // Top Down Camera
     [Header("Top Down Transition Settings")]
     public Transform topDownCamPoint;
+    
+    // Follow Camera 
+    [Header("Follow Transition Settings")]
+    public Transform followCamPoint;
+
+    [Header("Transition Duration")]
     public float transitionDuration = 1f;
+
 
     private bool isTopDown          = false;
     private bool isTransitioning    = false;
@@ -94,8 +101,9 @@ public class CameraController : MonoBehaviour
         // Cache Start and Target Values
         transitonStartPos = transform.position;
         transitionStartRot = transform.rotation;
-        transitionTargetPos = new Vector3(player.position.x, height, player.position.z + offSetZ);
-        transitionTargetRot = Quaternion.Euler(0f, 0f, 0f);
+        transitionTargetPos = player.position + followCamPoint.position;
+        transitionTargetRot = followCamPoint.rotation;
+      
         // Reset Timer
         transitionTimer = 0f;
         // Set Flags
