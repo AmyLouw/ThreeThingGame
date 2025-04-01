@@ -101,7 +101,11 @@ public class CameraController : MonoBehaviour
         // Cache Start and Target Values
         transitonStartPos = transform.position;
         transitionStartRot = transform.rotation;
-        transitionTargetPos = player.position + followCamPoint.position;
+        transitionTargetPos = new Vector3(
+            followCamPoint.position.x,
+            followCamPoint.position.y,
+            player.position.z + followCamPoint.position.z
+        );
         transitionTargetRot = followCamPoint.rotation;
       
         // Reset Timer

@@ -807,8 +807,9 @@ MonoBehaviour:
   player: {fileID: 290024540}
   offSetZ: 15
   height: 5
-  smoothSpeed: 0.125
+  smoothSpeed: 0.5
   topDownCamPoint: {fileID: 2037598939}
+  followCamPoint: {fileID: 1963817316}
   transitionDuration: 1
 --- !u!1 &1385543893
 GameObject:
@@ -1157,11 +1158,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelSections:
-  - {fileID: 5548990932722113035, guid: 5f8b0cce1b6f8bd44a2eec8de7727b5e, type: 3}
-  - {fileID: 5548990932722113035, guid: 5f8b0cce1b6f8bd44a2eec8de7727b5e, type: 3}
+  - {fileID: 5548990932722113035, guid: cda400db24c69db44910883f571f20be, type: 3}
   startPlatform: {fileID: 5005791836423334802, guid: 7aeeb07e4fa254e49a25ae145596ea9b, type: 3}
   endPlatform: {fileID: 5669094410605048632, guid: c9098feca29000242bfe4cb22055e96c, type: 3}
-  numberOfSections: 2
+  numberOfSections: 4
   sectionLength: 57
 --- !u!4 &1599532170
 Transform:
