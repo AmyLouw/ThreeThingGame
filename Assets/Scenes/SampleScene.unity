@@ -431,7 +431,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &598372465
 RectTransform:
   m_ObjectHideFlags: 0
@@ -808,9 +808,8 @@ MonoBehaviour:
   offSetZ: 15
   height: 5
   smoothSpeed: 0.125
-  cornerTriggerZone: {fileID: 8697669581784286787, guid: f6214a8f624ee144b817fcd23bc8d34e, type: 3}
-  rotationSpeed: 1
-  moveSpeed: 5
+  topDownCamPoint: {fileID: 2037598939}
+  transitionDuration: 1
 --- !u!1 &1385543893
 GameObject:
   m_ObjectHideFlags: 0
@@ -1158,13 +1157,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelSections:
-  - {fileID: 2422962858941063843, guid: dcb66a30295fed646942ee441ba01198, type: 3}
-  - {fileID: 2731822714371158821, guid: 3e61c0bc32a2f764191554c5dc11d558, type: 3}
+  - {fileID: 5548990932722113035, guid: 5f8b0cce1b6f8bd44a2eec8de7727b5e, type: 3}
+  - {fileID: 5548990932722113035, guid: 5f8b0cce1b6f8bd44a2eec8de7727b5e, type: 3}
   startPlatform: {fileID: 5005791836423334802, guid: 7aeeb07e4fa254e49a25ae145596ea9b, type: 3}
-  zCornerPlatform: {fileID: 498131792956801276, guid: f6214a8f624ee144b817fcd23bc8d34e, type: 3}
-  xCornerPlatform: {fileID: 6434825417577466102, guid: de249894aaf656448956a39cb540c9eb, type: 3}
   endPlatform: {fileID: 5669094410605048632, guid: c9098feca29000242bfe4cb22055e96c, type: 3}
-  numberOfSections: 1
+  numberOfSections: 2
   sectionLength: 57
 --- !u!4 &1599532170
 Transform:
@@ -1616,6 +1613,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1769700293}
   m_CullTransparentMesh: 1
+--- !u!1 &2037598938
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2037598939}
+  m_Layer: 0
+  m_Name: topDownCamTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2037598939
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037598938}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.7372774, z: -0.67559016, w: 0}
+  m_LocalPosition: {x: 0, y: 18, z: 10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 85, y: 180, z: 0}
 --- !u!1001 &267592922519359961
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1760,3 +1788,4 @@ SceneRoots:
   - {fileID: 1599532170}
   - {fileID: 1405489357}
   - {fileID: 467101021}
+  - {fileID: 2037598939}
