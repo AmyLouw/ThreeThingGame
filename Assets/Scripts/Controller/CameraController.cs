@@ -12,23 +12,22 @@ public class CameraController : MonoBehaviour
     // New settings for camera rotation and movement along X-axis after the corner
     public Transform cornerTriggerZone;    // Reference to the trigger zone where the camera rotates
     public float rotationSpeed = 1f;       // Speed at which the camera rotates
-    public float moveSpeed = 5f;           // Speed at which the camera moves along the X-axis after the corner
-    //public bool playerDetected = false;    // Flag to indicate if the player is detected
 
     private Vector3 currentVelocity = Vector3.zero;  // Current velocity of the camera (for SmoothDamp)
     public bool isAtCorner = false;        // Flag to determine when the player reaches the corner
-    private Quaternion targetRotation;      // Target rotation when transitioning around the corner
+    private Quaternion targetRotation;     // Target rotation when transitioning around the corner
 
     void Update()
     {
+        // If the player is not at the corner, follow the player along the Z-axis
         if (!isAtCorner)
         {
-            // Follow the player along the Z-axis before reaching the corner
             FollowPlayerAlongZ();
         }
         else
         {
-            FollowPlayerAlongX();
+            // If the player is at the corner, rotate the camera and continue following the player along the X-axis
+            FollowPlayerAfterRotation();
         }
     }
 
@@ -42,15 +41,27 @@ public class CameraController : MonoBehaviour
         transform.position = Vector3.SmoothDamp(transform.position, desiredPosition, ref currentVelocity, smoothSpeed);
     }
 
-    private void FollowPlayerAlongX()
+    // Smoothly rotates the camera and follows the player along the X-axis after the corner
+    private void FollowPlayerAfterRotation()
     {
-        // Desired position: Follow the player along the X-axis and maintain the height
-        Vector3 desiredPosition = new Vector3(player.position.x, height, transform.position.z);
-        // Smoothly move the camera to the desired position
+        // Continuously follow the player on the X and Z axes after rotation
+        Vector3 desiredPosition = new Vector3(player.position.x, height, player.position.z + offSetZ);
+
+        // Smoothly move the camera to the desired position, after rotation
         transform.position = Vector3.SmoothDamp(transform.position, desiredPosition, ref currentVelocity, smoothSpeed);
     }
 
-    // Smoothly rotates the camera and moves along the X-axis after the corner
+    // Call this method when the player enters the trigger zone
+    public void StartCameraRotation()
+    {
+        if (!isAtCorner)
+        {
+            isAtCorner = true;
+            StartCoroutine(SmoothCameraTransition());
+        }
+    }
+
+    // Smoothly rotates the camera when the player enters the trigger zone
     public IEnumerator SmoothCameraTransition()
     {
         // Rotate the camera to face along the X-axis
@@ -68,15 +79,4 @@ public class CameraController : MonoBehaviour
         // Ensure the camera finishes at the target rotation
         transform.rotation = targetRotation;
     }
-
-    // Move the camera along the X-axis after the corner
-    private void MoveCameraAlongX()
-    {
-        // Move the camera along the X-axis at the specified speed
-        float moveAmount = moveSpeed * Time.deltaTime;
-
-        // Update the camera position along the X-axis after the corner
-        transform.position = new Vector3(transform.position.x + moveAmount, transform.position.y, transform.position.z);
-    }
-
 }
