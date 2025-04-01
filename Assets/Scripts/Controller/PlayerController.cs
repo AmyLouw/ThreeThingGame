@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 {
 
     [Header("Movement Particles")] 
-    public ParticleSystem runningDust;
+    public ParticleSystem[] runningDust;
     public ParticleSystem landingDust;
 
     [Header("Particle Settings")]
@@ -24,6 +24,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("Ground Check Settings")]
     public float groundCheckDistance = 0.1f; // Distance to check for ground
+
+    [Header("Animator Settings")]
+    public Animator animator;
 
     private Rigidbody rb;
     private Vector2 moveInput;          // Player input
@@ -46,6 +49,8 @@ public class PlayerController : MonoBehaviour
             {
                 jumpRequested = true;
                 isGrounded = true;
+                animator.SetTrigger("jump");
+                animator.SetBool("grounded", false);
             }
         }
     }
@@ -90,25 +95,44 @@ public class PlayerController : MonoBehaviour
 
         // Running Particle Effect
         float horizontalSpeed = new Vector2(rb.velocity.x, rb.velocity.z).magnitude;
-        var dustEmission = runningDust.emission;
-        dustEmission.enabled = (isGrounded && horizontalSpeed >= minSpeedForDust);
+
+        // Enable or disable particle emissions based on horizontal speed
+        foreach (var dust in runningDust)
+        {
+            var emission = dust.emission;
+            emission.enabled = isGrounded && horizontalSpeed >= minSpeedForDust;
+        }
+
+        if (horizontalSpeed > 0)
+        {
+            animator.SetBool("running", true);
+        }
+        else
+        {
+            animator.SetBool("running", false);
+        }
 
         // Landing Particle Effect
         if (!wasGrounded && isGrounded)
         {
             landingDust.Play();
+            animator.SetBool("grounded", true);
         }
 
     }
+
     // Method to check if the player is grounded using a raycast
     private bool CheckGroundStatus()
     {
-        if(Physics.Raycast(transform.position, Vector3.down, out _, groundCheckDistance))
+        Debug.DrawRay(transform.position + Vector3.up * 0.5f, Vector3.down * groundCheckDistance, Color.red);
+        if (Physics.Raycast(transform.position + Vector3.up * 0.5f, Vector3.down, out _, groundCheckDistance))
         {
+            Debug.Log("Grounded");
             return true;
         }
+        Debug.Log("Not Grounded");
         return false;
-        Debug.DrawRay(transform.position, Vector3.down * groundCheckDistance, Color.red);
+        
     }
 
 }
