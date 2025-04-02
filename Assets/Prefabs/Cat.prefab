@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5156167856017529034}
   - component: {fileID: 4992824794800823529}
   - component: {fileID: 8466695836999510168}
+  - component: {fileID: 4764233284706398130}
   m_Layer: 0
   m_Name: Cat
   m_TagString: Untagged
@@ -49,10 +50,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 2
   rotationSpeed: 5
-  prefabsWithWaypoints:
-  - {fileID: 5005791836423334802, guid: 7aeeb07e4fa254e49a25ae145596ea9b, type: 3}
-  - {fileID: 498131792956801276, guid: f6214a8f624ee144b817fcd23bc8d34e, type: 3}
+  sections: []
   waypoints: []
+  player: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!54 &4992824794800823529
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -95,12 +96,33 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 6.377826, y: 7.3151217, z: 15.403845}
   m_Center: {x: 0.26193118, y: 4.18422, z: 1.8982353}
+--- !u!65 &4764233284706398130
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 332605073953921694}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 6.377826, y: 7.3151217, z: 17.352339}
+  m_Center: {x: 0.26193118, y: 4.18422, z: 2.8724825}
 --- !u!1 &633524368165681951
 GameObject:
   m_ObjectHideFlags: 0

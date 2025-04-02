@@ -12,6 +12,12 @@ public class CatController : MonoBehaviour
     public List<GameObject> sections = new List<GameObject>(); // List of sections in the scene that contain waypoints
     public List<Transform> waypoints = new List<Transform>(); // List to store the waypoints
 
+    [Header("Player Reference")]
+    public PlayerController player;
+
+    [Header("Animator")]
+    public Animator animator;
+
     private int currentWaypointIndex = 0;
     private bool isMoving = false;
 
@@ -107,6 +113,15 @@ public class CatController : MonoBehaviour
         {
             isMoving = false;
             Debug.LogWarning("No waypoints found in the scene.");
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Player"))
+        {
+            player.DisableInput();
+            animator.SetTrigger("playerCaught");
         }
     }
 }

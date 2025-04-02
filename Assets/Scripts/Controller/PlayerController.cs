@@ -28,11 +28,14 @@ public class PlayerController : MonoBehaviour
     [Header("Animator Settings")]
     public Animator animator;
 
+    
+    private bool isInputEnabled = true;
     private Rigidbody rb;
     private Vector2 moveInput;          // Player input
     private bool jumpRequested;         // Jump Flag
     private bool isGrounded;
     private bool wasGrounded;
+    public PlayerInput playerInput;
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -55,11 +58,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         rb.interpolation = RigidbodyInterpolation.Interpolate;
+
+        //playerInput.GetComponent<PlayerInput>();
     }
 
     private void FixedUpdate()
@@ -92,48 +99,49 @@ public class PlayerController : MonoBehaviour
             Quaternion newRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed);
             rb.MoveRotation(newRotation);
         }
-
-        // Process jump if requested
-        if (jumpRequested && isGrounded)
+        if(isInputEnabled)
         {
-            // Calculate the jump velocity using v = sqrt(2 * g * jumpHeight)
-            float jumpVelocity = Mathf.Sqrt(2f * Mathf.Abs(Physics.gravity.y) * jumpForce);
-            rb.velocity = new Vector3(rb.velocity.x, jumpVelocity, rb.velocity.z);
+            // Process jump if requested
+            if (jumpRequested && isGrounded)
+            {
+                // Calculate the jump velocity using v = sqrt(2 * g * jumpHeight)
+                float jumpVelocity = Mathf.Sqrt(2f * Mathf.Abs(Physics.gravity.y) * jumpForce);
+                rb.velocity = new Vector3(rb.velocity.x, jumpVelocity, rb.velocity.z);
 
-            //potential imporvement
-            //rb.AddForce(Vector3.up * Mathf.Sqrt(2f * Mathf.Abs(Physics.gravity.y) * jumpForce), ForceMode.VelocityChange);
+                //potential imporvement
+                //rb.AddForce(Vector3.up * Mathf.Sqrt(2f * Mathf.Abs(Physics.gravity.y) * jumpForce), ForceMode.VelocityChange);
+            }
+
+            // Reset jump request whether or not the jump was performed
+            jumpRequested = false;
+
+
+            // Running Particle Effect
+            float horizontalSpeed = new Vector2(rb.velocity.x, rb.velocity.z).magnitude;
+
+            // Enable or disable particle emissions based on horizontal speed
+            foreach (var dust in runningDust)
+            {
+                var emission = dust.emission;
+                emission.enabled = isGrounded && horizontalSpeed >= minSpeedForDust;
+            }
+
+            if (horizontalSpeed > 0)
+            {
+                animator.SetBool("running", true);
+            }
+            else
+            {
+                animator.SetBool("running", false);
+            }
+
+            // Landing Particle Effect
+            if (!wasGrounded && isGrounded)
+            {
+                landingDust.Play();
+                animator.SetBool("grounded", true);
+            }
         }
-
-        // Reset jump request whether or not the jump was performed
-        jumpRequested = false;
-
-
-        // Running Particle Effect
-        float horizontalSpeed = new Vector2(rb.velocity.x, rb.velocity.z).magnitude;
-
-        // Enable or disable particle emissions based on horizontal speed
-        foreach (var dust in runningDust)
-        {
-            var emission = dust.emission;
-            emission.enabled = isGrounded && horizontalSpeed >= minSpeedForDust;
-        }
-
-        if (horizontalSpeed > 0)
-        {
-            animator.SetBool("running", true);
-        }
-        else
-        {
-            animator.SetBool("running", false);
-        }
-
-        // Landing Particle Effect
-        if (!wasGrounded && isGrounded)
-        {
-            landingDust.Play();
-            animator.SetBool("grounded", true);
-        }
-
     }
 
     // Method to check if the player is grounded using a raycast
@@ -146,6 +154,18 @@ public class PlayerController : MonoBehaviour
         }
         return false;
         
+    }
+
+    public void DisableInput()
+    {
+        playerInput.actions.Disable();
+        isInputEnabled = false;
+    }
+
+    public void EnableInput()
+    {
+        playerInput.actions.Enable();
+        isInputEnabled = true;
     }
 
 }
