@@ -127,10 +127,8 @@ public class PlayerController : MonoBehaviour
         Debug.DrawRay(transform.position + Vector3.up * 0.5f, Vector3.down * groundCheckDistance, Color.red);
         if (Physics.Raycast(transform.position + Vector3.up * 0.5f, Vector3.down, out _, groundCheckDistance))
         {
-            Debug.Log("Grounded");
             return true;
         }
-        Debug.Log("Not Grounded");
         return false;
         
     }
