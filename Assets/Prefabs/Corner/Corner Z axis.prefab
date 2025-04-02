@@ -469,7 +469,7 @@ GameObject:
   m_Component:
   - component: {fileID: 756109016612688814}
   - component: {fileID: 6394916469951259598}
-  - component: {fileID: 5570295991770032075}
+  - component: {fileID: 5716853112182955489}
   m_Layer: 0
   m_Name: RotateCollider
   m_TagString: Untagged
@@ -485,13 +485,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5890386995522660113}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.47, y: 5.66, z: 5.31}
+  m_LocalRotation: {x: 0, y: 0.1496216, z: 0, w: 0.98874336}
+  m_LocalPosition: {x: -6.45, y: 5.27, z: 14.83}
   m_LocalScale: {x: 1, y: 11.02, z: 20.669}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8697669581784286787}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 17.21, z: 0}
 --- !u!65 &6394916469951259598
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -513,7 +513,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5570295991770032075
+--- !u!114 &5716853112182955489
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -522,9 +522,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5890386995522660113}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33459f75f8d90c64f9e699f1c6199c18, type: 3}
+  m_Script: {fileID: 11500000, guid: 1dd1257d898e7bc4e87e6ba423f9efe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transitionType: 2
+  oneShot: 1
+  cornerAngle: -90
 --- !u!1 &8934218458973255334
 GameObject:
   m_ObjectHideFlags: 0
