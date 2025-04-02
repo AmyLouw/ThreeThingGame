@@ -805,12 +805,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 290024540}
-  offSetZ: 15
-  height: 5
+  height: 0
+  distance: 15
   smoothSpeed: 0.5
+  pitchAngle: 25.5
   topDownCamPoint: {fileID: 2037598939}
   followCamPoint: {fileID: 1963817316}
   transitionDuration: 1
+  cornerRotationTime: 1
 --- !u!1 &1385543893
 GameObject:
   m_ObjectHideFlags: 0

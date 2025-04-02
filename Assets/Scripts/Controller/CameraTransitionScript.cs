@@ -2,13 +2,16 @@ using UnityEngine;
 
 public class CameraTransitionTrigger : MonoBehaviour
 {
-    public enum TransitionType { TopDown, Follow }
+    public enum TransitionType { TopDown, Follow, Corner }
     [Tooltip("Select TopDown to switch to bird’s-eye view, or Follow to return to normal camera mode.")]
     public TransitionType transitionType = TransitionType.TopDown;
 
     [Tooltip("If true, the trigger only works once.")]
     public bool oneShot = true;
     private bool triggered = false;
+
+    [Tooltip("Angle Rotation")]
+    public float cornerAngle = 90f;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -29,6 +32,11 @@ public class CameraTransitionTrigger : MonoBehaviour
                 {
                     camController.TransitionToFollow();
                 }
+                else
+                {
+                    camController.RotateCorner(cornerAngle);
+                }
+                
             }
             triggered = true;
         }

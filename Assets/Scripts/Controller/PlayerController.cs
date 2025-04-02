@@ -64,8 +64,20 @@ public class PlayerController : MonoBehaviour
         wasGrounded = isGrounded;
         isGrounded = CheckGroundStatus();
 
+
+        // NEW CAMERA RELATIVE MOVEMENT
+        Vector3 camForward = -Camera.main.transform.forward;
+        Vector3 camRight = -Camera.main.transform.right;
+        camForward.y = 0f;
+        camRight.y = 0f;
+        camForward.Normalize();
+        camRight.Normalize();
+
+
         // Calculate horizontal movement based on input
-        Vector3 move = new Vector3(moveInput.x, 0f, moveInput.y);
+        // Vector3 move = new Vector3(moveInput.x, 0f, moveInput.y); // old movement
+        Vector3 move = (camForward * moveInput.y) + (camRight * moveInput.x);
+        move.Normalize();
         Vector3 targetVelocity = new Vector3(move.x * speed, rb.velocity.y, move.z * speed);
         rb.velocity = targetVelocity;
 
@@ -83,6 +95,9 @@ public class PlayerController : MonoBehaviour
             // Calculate the jump velocity using v = sqrt(2 * g * jumpHeight)
             float jumpVelocity = Mathf.Sqrt(2f * Mathf.Abs(Physics.gravity.y) * jumpForce);
             rb.velocity = new Vector3(rb.velocity.x, jumpVelocity, rb.velocity.z);
+
+            //potential imporvement
+            //rb.AddForce(Vector3.up * Mathf.Sqrt(2f * Mathf.Abs(Physics.gravity.y) * jumpForce), ForceMode.VelocityChange);
         }
 
         // Reset jump request whether or not the jump was performed
