@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
 {
-    // Array to store the prefab sections that will be used to generate the level
-    public GameObject[] levelSections;
+    // Arrays to store the prefab sections that will be used to generate the level
+    public GameObject[] levelSectionsBeforeCorner; // Sections before the corner
+    public GameObject[] levelSectionsAfterCorner;  // Sections after the corner
 
     // The start and end platforms to be placed at the beginning and end of the level
     public GameObject startPlatform;
@@ -14,23 +15,21 @@ public class LevelGenerator : MonoBehaviour
     public GameObject endPlatform;
 
     // The number of sections to generate between the start and end
-    public int numberOfSections = 10;
+    public int numberOfSectionsBeforeCorner = 5;
+    public int numberOfSectionsAfterCorner = 5;
 
     // The distance between each section (for fallback purposes)
     public float sectionLength = 10f;
-
-    //has the playe reached the corner?
-    private bool playerAtCorner = false;
 
     // Start is called before the first frame update
     void Start()
     {
         Time.timeScale = 1;
-        GenerateFirstLevel();
+        GenerateLevel();
     }
 
     // Method to generate the level
-    void GenerateFirstLevel()
+    void GenerateLevel()
     {
         Vector3 spawnPosition = Vector3.zero;
 
@@ -64,14 +63,14 @@ public class LevelGenerator : MonoBehaviour
             }
         }
 
-        // Generate random level sections in between the start and end platforms
-        for (int i = 0; i < numberOfSections; i++)
+        // Generate the first set of sections (before the corner)
+        for (int i = 0; i < numberOfSectionsBeforeCorner; i++)
         {
-            // Pick a random prefab section from the array
-            int randomIndex = Random.Range(0, levelSections.Length);
+            // Pick a random prefab section from the array for the first part of the level
+            int randomIndex = Random.Range(0, levelSectionsBeforeCorner.Length);
 
             // Instantiate the selected prefab at the current position
-            GameObject section = Instantiate(levelSections[randomIndex], spawnPosition, Quaternion.identity);
+            GameObject section = Instantiate(levelSectionsBeforeCorner[randomIndex], spawnPosition, Quaternion.identity);
 
             // Get the bounds of the prefab section to determine its length
             Renderer sectionRenderer = section.GetComponent<Renderer>();
@@ -90,45 +89,60 @@ public class LevelGenerator : MonoBehaviour
             }
         }
 
-        // Spawn the end platform at the end of the level
+        // Spawn the Z corner platform after the first set of sections
         if (zCornerPlatform != null)
         {
             Instantiate(zCornerPlatform, spawnPosition, Quaternion.identity);
+
+            // Adjust the spawn position after corner platform
+            Collider cornerCollider = zCornerPlatform.GetComponent<Collider>();
+            if (cornerCollider != null)
+            {
+                spawnPosition.z += cornerCollider.bounds.size.z;
+            }
         }
 
-        GenerateSecondLevel(spawnPosition);
+        // Generate the second set of sections (after the corner)
+        GenerateSectionsAfterCorner(ref spawnPosition);
     }
 
-    void GenerateSecondLevel(Vector3 spawnPosition)
+    // Method to generate the second part of the level after the corner
+    void GenerateSectionsAfterCorner(ref Vector3 spawnPosition)
     {
         // Rotate sections along the X-axis to face the negative X direction
         Quaternion sectionRotation = Quaternion.Euler(0, -90, 0);
 
-        // Spawn x corner at the start of the second level
+        // Spawn the X corner platform
         if (xCornerPlatform != null)
         {
             // Adjust spawn position before corner platform spawn
-            spawnPosition.x -= 34;  // Move the spawn position along negative X (adjust based on your scene)
-            spawnPosition.z += 15;  // Adjust along Z-axis (adjust as needed for corner offset)
+            spawnPosition.x -= 13;  // Move the spawn position along negative X (adjust based on your scene)
+            spawnPosition.z += 14.25f;  // Adjust along Z-axis (adjust as needed for corner offset)
 
             // Instantiate the corner platform
             Instantiate(xCornerPlatform, spawnPosition, Quaternion.identity);
 
             // Adjust spawn position after corner platform
-            // Make sure to account for the full width of the corner platform along the X-axis
             Collider cornerCollider = xCornerPlatform.GetComponent<Collider>();
             if (cornerCollider != null)
             {
                 // Subtract the corner platform's width from spawnPosition based on collider bounds
-                spawnPosition.x -= sectionLength;
+                spawnPosition.x -= cornerCollider.bounds.size.x;  // Adjust spawn position after corner platform
             }
         }
 
-        // Generate new sections along the negative X-axis
-        for (int i = 0; i < numberOfSections; i++)
+        // Add a small gap between the corner platform and the first section in the second area
+        float gap = 36.0f; // You can adjust this gap value to your desired size
+        spawnPosition.x -= gap;  // Create the gap by moving the spawn position further along the negative X-axis
+
+        // Generate the second set of sections (after the corner)
+        for (int i = 0; i < numberOfSectionsAfterCorner; i++)
         {
-            int randomIndex = Random.Range(0, levelSections.Length);
-            GameObject section = Instantiate(levelSections[randomIndex], spawnPosition, sectionRotation); // Apply rotation to face negative X direction
+            // Pick a random prefab section from the array for the second part of the level
+            int randomIndex = Random.Range(0, levelSectionsAfterCorner.Length);
+
+            // Instantiate the selected prefab at the current position
+            GameObject section = Instantiate(levelSectionsAfterCorner[randomIndex], spawnPosition, sectionRotation);
 
             // Get the bounds of the prefab section to determine its length along the X-axis using its Collider
             Collider sectionCollider = section.GetComponent<Collider>();
@@ -147,10 +161,13 @@ public class LevelGenerator : MonoBehaviour
             }
         }
 
-        //spawn end platform
-        if(endPlatform != null)
+        // Spawn the end platform
+        if (endPlatform != null)
         {
             Instantiate(endPlatform, spawnPosition, sectionRotation);
         }
     }
+
+
 }
+
