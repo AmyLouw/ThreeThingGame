@@ -38,7 +38,6 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        Debug.Log("Jump");
         // Use context.started to trigger on key press only once
         if (context.started)
         {
